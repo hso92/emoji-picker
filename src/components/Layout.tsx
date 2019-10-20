@@ -1,15 +1,29 @@
 import React from "react";
-import { ThemeProvider } from "styled-components";
+import styled , { ThemeProvider } from "styled-components";
 import GlobalStyle from "../styles/global";
 import theme from "../styles/theme";
+
+
+const Wrapper = styled.div`
+  /* max-width: ${props => props.theme.sizes.maxWidth}; */
+  position: relative;
+  margin: 0 auto;
+  padding: 0 ${props => props.theme.sideSpace.large};
+  @media screen and (max-width: ${props => props.theme.responsive.large}) {
+    max-width: 760px;
+  }
+  @media screen and (max-width: ${props => props.theme.responsive.small}) {
+    padding: 0 ${props => props.theme.sideSpace.small};
+  }
+`;
 
 const layout: React.FC = props => {
   return (
     <ThemeProvider theme={theme}>
-      <>
+      <Wrapper>
         {props.children}
         <GlobalStyle />
-      </>
+      </Wrapper>
     </ThemeProvider>
   );
 };
