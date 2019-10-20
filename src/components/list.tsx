@@ -4,11 +4,11 @@ import { Store } from "../store";
 import { TYPE_EMOJI } from "../types/types";
 
 const View : React.FC = (props) => {
-  const { state } = React.useContext<any>(Store);
-
+  const { state } = React.useContext(Store);
+  const emoji = state.data;
   return (
     <ul>
-      {state.data.map((item: TYPE_EMOJI) => (
+      {emoji.map((item: TYPE_EMOJI) => (
         <li key={item.emoji}>{item.emoji}</li>
       ))}
     </ul>
