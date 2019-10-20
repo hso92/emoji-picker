@@ -1,5 +1,6 @@
 import React from "react";
 import { Provider } from "./store";
+import Layout from './components/Layout'
 import EmojiList from './components/list';
 
 //===============================
@@ -7,9 +8,9 @@ import EmojiList from './components/list';
 //===============================
 const Container: React.FC = () => {
   return (
-    <>
+    <Layout>
       <EmojiList />
-    </>
+    </Layout>
   );
 };
 
@@ -20,6 +21,6 @@ const App: React.FC = () => (
   <Provider>
     <Container />
   </Provider>
-)
+);
 
 export default App;
