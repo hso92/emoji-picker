@@ -5,7 +5,8 @@ import {TYPE_INITIAL_STATE , TYPE_INITIAL_TYPE } from './types/types'
 //===============================
 export const initialState: TYPE_INITIAL_STATE = {
   data: false,
-  payload: []
+  payload: [],
+  text:'',
 };
 const reducer = (state: TYPE_INITIAL_STATE | Object, action: TYPE_INITIAL_TYPE) => {
   switch (action.type) {
@@ -14,6 +15,14 @@ const reducer = (state: TYPE_INITIAL_STATE | Object, action: TYPE_INITIAL_TYPE) 
     case "READY":
       return {
         data: action.payload
+      };
+    case "SEARCH":
+      return {
+        data: action.payload.filter(
+          (item: any) =>
+            item.ja.includes(action.text) ||
+            item.en.includes(action.text)
+        )
       };
     case "PEOPLE":
       return {

@@ -2,12 +2,12 @@
 import React from "react";
 import styled from "styled-components";
 import { Store } from "../store";
-import { TYPE_EMOJI, TYPE_INITIAL_TYPE } from "../types/types";
+import { TYPE_INITIAL_TYPE } from "../types/types";
 
 //===============================
 // @Component
 //===============================
-const View : React.FC = (props:any) => {
+const View: React.FC = (props: any) => {
   const { state , dispatch, emojiState } = React.useContext(Store);
   const emoji = emojiState;
 
@@ -51,7 +51,7 @@ const View : React.FC = (props:any) => {
       </li>
     </ul>
   );
-}
+};
 
 //===============================
 // @Styled
@@ -61,16 +61,9 @@ export default styled(View)`
   align-items: center;
   width: 100%;
   padding-bottom: 1em;
+  color: ${props => props.theme.colors.blue8};
   > li {
     width: 100%;
-    border-radius: 5px;
-    transition: 0.2s ease;
-    text-align: center;
-    &:hover {
-      cursor: pointer;
-      transform: translateY(-2.5px);
-      box-shadow: 0 1.5px 3px ${props => props.theme.colors.gray};
-    }
     + li {
       margin-left: 2em;
     }
@@ -83,6 +76,16 @@ export default styled(View)`
       cursor: inherit;
       display: block;
       width: 100%;
+      border-radius: 5px;
+      transition: 0.2s ease;
+      text-align: center;
+      color:inherit;
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        transform: translateY(-2.5px);
+        box-shadow: 0 1.5px 3px ${props => props.theme.colors.gray};
+      }
     }
   }
 `;

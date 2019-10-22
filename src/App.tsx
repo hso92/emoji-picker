@@ -2,15 +2,20 @@ import React from "react";
 import { Provider } from "./store";
 import Layout from './components/Layout'
 import EmojiList from './components/list';
-import SoryList from './components/sort'
+import Title from './components/title'
+import SortList from './components/sort'
+import SearchBox from './components/search'
 
 //===============================
 // @Container
 //===============================
 const Container: React.FC = () => {
+  console.log('render')
   return (
     <Layout>
-      <SoryList />
+      <Title />
+      <SearchBox />
+      <SortList />
       <EmojiList />
     </Layout>
   );
