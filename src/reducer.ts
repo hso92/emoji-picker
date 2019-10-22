@@ -16,7 +16,6 @@ const reducer = (state: TYPE_INITIAL_STATE | Object, action: TYPE_INITIAL_TYPE) 
         data: action.payload
       };
     case "PEOPLE":
-      console.log(action.payload)
       return {
         data: action.payload.filter((item:any) => item.category === "people")
       };

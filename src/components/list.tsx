@@ -9,9 +9,9 @@ import { useCopyToClipboard } from "react-use";
 //===============================
 const View: React.FC = (props: any) => {
   const emojiRef = React.useRef<any>(null);
+  React.useEffect(() => {}, [emojiRef]);
   const [text, copyToClipboard] = useCopyToClipboard();
   const [toggle, setToggle] = React.useState(false);
-  React.useEffect(() => {}, [emojiRef]);
 
   const { state } = React.useContext(Store);
   const emoji = state.data;
@@ -65,10 +65,10 @@ export default styled(View)`
     right: 0;
     bottom: 5em;
     margin: auto;
-    border-radius: 25px;
+    border-radius: 5px;
     width: 30%;
     text-align: center;
-    background: ${props => props.theme.colors.blue5};
+    background: ${props => props.theme.colors.blue4};
     box-shadow: 0 0 10px ${props => props.theme.colors.gray};
     transition: .2s ease-in-out;
     visibility: hidden;
@@ -82,6 +82,7 @@ export default styled(View)`
     > p {
       font-weight: 700;
       font-size: 2rem;
+      letter-spacing: .05em;
       color: #fff;
     }
   }

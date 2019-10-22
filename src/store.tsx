@@ -30,6 +30,7 @@ const handleProfileReady = (data: TYPE_INITIAL_TYPE) : any => ({
 //===============================
 const Provider: React.FC = ({ children }) => {
   const [isLoad, setIsLoad] = React.useState(false);
+  const [emojiState,setEmojiState] = React.useState('');
   const [state, dispatch] = React.useReducer(reducer, []);
 
   React.useEffect(() => {
@@ -37,6 +38,7 @@ const Provider: React.FC = ({ children }) => {
       try {
         const profileData = await EMOJI_LIST();
         dispatch(handleProfileReady(profileData));
+        setEmojiState(profileData);
         setIsLoad(true);
       } catch (error) {
         console.error(error);
@@ -46,7 +48,9 @@ const Provider: React.FC = ({ children }) => {
   }, []);
 
   return isLoad ? (
-    <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>
+    <Store.Provider value={{ state, dispatch, emojiState }}>
+      {children}
+    </Store.Provider>
   ) : (
     <p>loading...</p>
   );
