@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Store } from "../store";
 import { TYPE_EMOJI } from "../types/types";
 import { useCopyToClipboard } from "react-use";
+import History from './history';
 
 //===============================
 // @Component
@@ -10,8 +11,9 @@ import { useCopyToClipboard } from "react-use";
 const View: React.FC = (props: any) => {
   const emojiRef = React.useRef<any>(null);
   React.useEffect(() => {}, [emojiRef]);
-  const [text, copyToClipboard] = useCopyToClipboard();
+  const [text , copyToClipboard] = useCopyToClipboard();
   const [toggle, setToggle] = React.useState(false);
+  const [currentEmoji , setCurrentEmoji] = React.useState('');
 
   const { state } = React.useContext(Store);
   const emoji = state.data;
@@ -23,10 +25,13 @@ const View: React.FC = (props: any) => {
             <button
               onClick={() => {
                 copyToClipboard(item.emoji);
+                setCurrentEmoji(item.emoji);
                 setToggle(true);
                 setTimeout(() => setToggle(false), 2000);
               }}
               ref={emojiRef}
+              role="img"
+              aria-label={item.ja}
             >
               {item.emoji}
             </button>
@@ -34,8 +39,9 @@ const View: React.FC = (props: any) => {
         ))}
       </ul>
       <div className={`alert ${toggle ? "is-in" : ""}`}>
-        <p>copied!</p>
+        <p>COPY {currentEmoji}</p>
       </div>
+      <History children={{currentEmoji}} />
     </div>
   );
 };
