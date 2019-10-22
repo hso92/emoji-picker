@@ -10,7 +10,7 @@ export type TYPE_EMOJI = {
 };
 export type TYPE_INITIAL_STATE = {
   data: boolean;
-  payload: TYPE_EMOJI[];
+  payload?: TYPE_EMOJI[];
 };
 export type TYPE_INITIAL_TYPE = {
   type?: string;
