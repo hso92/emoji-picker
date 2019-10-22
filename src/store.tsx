@@ -22,7 +22,7 @@ const EMOJI_LIST: any = async () => {
 // patch
 const handleProfileReady = (data: TYPE_INITIAL_TYPE) : any => ({
   type: "READY",
-  payload: data
+  payload: data,
 });
 
 //===============================
