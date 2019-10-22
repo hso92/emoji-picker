@@ -7,7 +7,7 @@ import theme from "../styles/theme";
 // @Component
 //===============================
 const Wrapper = styled.div`
-  /* max-width: ${props => props.theme.sizes.maxWidth}; */
+  max-width: ${props => props.theme.sizes.maxWidth};
   position: relative;
   margin: 0 auto;
   padding: 5em ${props => props.theme.sideSpace.large};
