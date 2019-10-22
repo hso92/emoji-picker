@@ -5,12 +5,11 @@ import styled from "styled-components";
 // @Component
 //===============================
 const View: React.FC = (props: any) => {
-  const {currentEmoji} = props
-
-  console.log(document.cookie);
+  const { currentEmoji, localStrage } = props.children;
+  
   return (
   <div className={props.className}>
-    {currentEmoji}
+    {/* {localStrage} */}
   </div>
 );
 }

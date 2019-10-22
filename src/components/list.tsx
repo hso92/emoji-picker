@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { Store } from "../store";
 import { TYPE_EMOJI } from "../types/types";
 import { useCopyToClipboard } from "react-use";
-import History from './history';
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import History from './history'
 
 //===============================
 // @Component
@@ -14,6 +15,7 @@ const View: React.FC = (props: any) => {
   const [text , copyToClipboard] = useCopyToClipboard();
   const [toggle, setToggle] = React.useState(false);
   const [currentEmoji , setCurrentEmoji] = React.useState('');
+  const [localState, setLocalState] = useLocalStorage("EMOJI", [{}]);
 
   const { state } = React.useContext(Store);
   const emoji = state.data;
@@ -26,6 +28,7 @@ const View: React.FC = (props: any) => {
               onClick={() => {
                 copyToClipboard(item.emoji);
                 setCurrentEmoji(item.emoji);
+                setLocalState(item.emoji);
                 setToggle(true);
                 setTimeout(() => setToggle(false), 2000);
               }}
@@ -41,7 +44,7 @@ const View: React.FC = (props: any) => {
       <div className={`alert ${toggle ? "is-in" : ""}`}>
         <p>COPY {currentEmoji}</p>
       </div>
-      <History children={{currentEmoji}} />
+      <History children={{ currentEmoji, localState }} />
     </div>
   );
 };
@@ -53,6 +56,10 @@ export default styled(View)`
   > .emoji-list {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    > li {
+      margin-top: 0.25em;
+    }
   }
   .emoji {
     font-size: 2.4rem;
@@ -76,11 +83,11 @@ export default styled(View)`
     text-align: center;
     background: ${props => props.theme.colors.blue4};
     box-shadow: 0 0 10px ${props => props.theme.colors.gray};
-    transition: .2s ease-in-out;
+    transition: 0.2s ease-in-out;
     visibility: hidden;
     opacity: 0;
-    padding:.5em 0;
-    letter-spacing:.05em;
+    padding: 0.5em 0;
+    letter-spacing: 0.05em;
     &.is-in {
       opacity: 1;
       visibility: visible;
@@ -88,7 +95,7 @@ export default styled(View)`
     > p {
       font-weight: 700;
       font-size: 2rem;
-      letter-spacing: .05em;
+      letter-spacing: 0.05em;
       color: #fff;
     }
   }
