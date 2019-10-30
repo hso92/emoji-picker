@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Store } from "../store";
 import { TYPE_EMOJI } from "../types/types";
 import { useCopyToClipboard } from "react-use";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 import History from './history'
 
 //===============================
@@ -15,10 +14,16 @@ const View: React.FC = (props: any) => {
   const [text , copyToClipboard] = useCopyToClipboard();
   const [toggle, setToggle] = React.useState(false);
   const [currentEmoji , setCurrentEmoji] = React.useState('');
-  const [localState, setLocalState] = useLocalStorage("EMOJI", [{}]);
-
-  const { state } = React.useContext(Store);
+  const { state , storage , storageDispatch } = React.useContext(Store);
   const emoji = state.data;
+  const setStorage = (item: string) => {
+    storageDispatch({
+      type: "SET_LOCAL",
+      storage: item
+    });
+    window.localStorage.setItem("EMOJI", JSON.stringify(storage));
+  }
+
   return (
     <div className={props.className}>
       <ul className="emoji-list">
@@ -28,7 +33,7 @@ const View: React.FC = (props: any) => {
               onClick={() => {
                 copyToClipboard(item.emoji);
                 setCurrentEmoji(item.emoji);
-                setLocalState(item.emoji);
+                setStorage(item.emoji);
                 setToggle(true);
                 setTimeout(() => setToggle(false), 2000);
               }}
@@ -44,7 +49,15 @@ const View: React.FC = (props: any) => {
       <div className={`alert ${toggle ? "is-in" : ""}`}>
         <p>COPY {currentEmoji}</p>
       </div>
-      <History children={{ currentEmoji, localState }} />
+      <History
+        children={{
+          currentEmoji,
+          copyToClipboard,
+          setCurrentEmoji,
+          setStorage,
+          setToggle
+        }}
+      />
     </div>
   );
 };
