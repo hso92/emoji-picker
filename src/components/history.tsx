@@ -7,28 +7,37 @@ import { Store } from "../store";
 //===============================
 const View: React.FC = (props: any) => {
   const { state, storage } = React.useContext(Store);
-  const { copyToClipboard, setCurrentEmoji, setStorage, setToggle } = props.children;
-  const List = () => (
-    <ul>
-      {storage.map((item: any, index: string) => (
-        <li key={index}>
-          <button
-            onClick={
-              ()=> {
+  const {
+    copyToClipboard,
+    setCurrentEmoji,
+    setStorage,
+    setToggle
+  } = props.children;
+  const history = storage.filter(
+    (item: any, index: number) => index > storage.length - 6
+  );
+  const List = () => {
+    return (
+      <ul>
+        {history.map((item: { emoji: React.ReactNode }, index: string) => (
+          <li key={index}>
+            <button
+              onClick={() => {
                 copyToClipboard(item.emoji);
                 setCurrentEmoji(item.emoji);
                 setStorage(item.emoji);
                 setToggle(true);
                 setTimeout(() => setToggle(false), 2000);
-              }
-            }
-          >
-            {item.emoji}
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
+              }}
+              role="img"
+            >
+              {item.emoji}
+            </button>
+          </li>
+        ))}
+      </ul>
+    );
+  };
 
   return (
     <div className={props.className}>
@@ -57,11 +66,12 @@ export default styled(View)`
     background: ${props => props.theme.colors.blue8};
     border-radius: 5px;
     padding: 10px;
-    display: block;
+    display: flex;
+    flex-direction: column-reverse;
     box-shadow: 0 0 5px #727d86;
   }
   button {
-    cursor:pointer;
+    cursor: pointer;
     display: block;
   }
 `;

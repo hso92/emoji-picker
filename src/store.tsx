@@ -21,9 +21,9 @@ const fetchEmoji: any = async () => {
   }
 };
 // patch
-const handleProfileReady = (data: TYPE_INITIAL_TYPE) : any => ({
+const handleProfileReady = (data: TYPE_INITIAL_TYPE): any => ({
   type: "READY",
-  payload: data,
+  payload: data
 });
 
 //===============================
@@ -31,12 +31,18 @@ const handleProfileReady = (data: TYPE_INITIAL_TYPE) : any => ({
 //===============================
 const Provider: React.FC = ({ children }) => {
   const [isLoad, setIsLoad] = React.useState(false);
-  const [emojiState,setEmojiState] = React.useState('');
+  const [emojiState, setEmojiState] = React.useState("");
   const [state, dispatch] = React.useReducer(reducer, []);
-  const [storage, storageDispatch] = React.useReducer<any,object>(storageReducer, [], () => {
-    const storageData = window.localStorage.getItem("EMOJI");
-    return storageData ? JSON.parse(storageData) : [] ;
-  });
+  const [storage, storageDispatch] = React.useReducer<any, object>(
+    storageReducer,
+    [],
+    () => {
+      const storageData = window.localStorage.getItem("EMOJI");
+      return storageData
+        ? JSON.parse(storageData)
+        : [];
+    }
+  );
 
   React.useEffect(() => {
     const trigger = async () => {

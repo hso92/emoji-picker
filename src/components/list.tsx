@@ -17,10 +17,19 @@ const View: React.FC = (props: any) => {
   const { state , storage , storageDispatch } = React.useContext(Store);
   const emoji = state.data;
   const setStorage = (item: string) => {
-    storageDispatch({
-      type: "SET_LOCAL",
-      storage: item
+    const target = {emoji: item}
+    const some = storage.some((item: { emoji: string; },index: number) => {
+      if (item.emoji === target.emoji) {
+        storage.splice(index, 1);
+        storage.push(item)
+        return true
+      }
     });
+    if (some) return;
+      storageDispatch({
+        type: "SET_LOCAL",
+        storage: item
+      });
     window.localStorage.setItem("EMOJI", JSON.stringify(storage));
   }
 
