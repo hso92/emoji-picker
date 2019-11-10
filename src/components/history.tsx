@@ -7,6 +7,7 @@ import { Store } from "../store";
 //===============================
 const View: React.FC = (props: any) => {
   const { state, storage } = React.useContext(Store);
+  const [isOpen, setIsOpen] = React.useState<boolean>(false);
   const {
     copyToClipboard,
     setCurrentEmoji,
@@ -41,7 +42,15 @@ const View: React.FC = (props: any) => {
 
   return (
     <div className={props.className}>
-      {storage.length > 0 ? <List /> : null}
+      {storage.length > 0 ? (
+        <>
+          {isOpen && <List />}
+          <button
+            className={isOpen ? "toggleButton open" : "toggleButton"}
+            onClick={() => setIsOpen(!isOpen)}
+          ></button>
+        </>
+      ) : null}
     </div>
   );
 };
@@ -62,6 +71,12 @@ export default styled(View)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+    top: auto;
+    right: 20px;
+    bottom: 20px;
+    height: auto;
+  }
   > ul {
     background: ${props => props.theme.colors.blue8};
     border-radius: 5px;
@@ -69,9 +84,48 @@ export default styled(View)`
     display: flex;
     flex-direction: column-reverse;
     box-shadow: 0 0 5px #727d86;
+
+    + .toggleButton {
+      margin-top: 0.5em;
+    }
   }
   button {
     cursor: pointer;
     display: block;
+    margin: 0;
+    padding: 0;
+  }
+  .toggleButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: ${props => props.theme.colors.blue5};
+    position: relative;
+    box-shadow: 0 0 5px #727d86;
+    transition: 0.2s ease-in-out;
+    &::before,
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 25%;
+      height: 2px;
+      background: #fff;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      transition: inherit;
+    }
+    &::after {
+      transform: rotate(-90deg);
+    }
+    &.open {
+      background: ${props => props.theme.colors.blue8};
+      &::after {
+        transform: none;
+      }
+    }
   }
 `;

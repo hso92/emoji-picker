@@ -57,6 +57,9 @@ export default styled(View)`
     transition: 0.2s ease;
     color: ${props => props.theme.colors.blue8};
     opacity: 0.5;
+    @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+      border-radius: 15px;
+    }
     &:focus {
       padding: 0.5em 1em;
       box-shadow: 0 0 8px ${props => props.theme.colors.gray} inset;

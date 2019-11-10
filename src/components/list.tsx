@@ -79,19 +79,32 @@ export default styled(View)`
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
     > li {
       margin-top: 0.25em;
+        text-align:center;
+      @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+        width: 16.6666666667%;
+      }
     }
   }
   .emoji {
     font-size: 2.4rem;
     line-height: 1;
+    width: 5%;
+    @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+      font-size: 10.666666666666666vw;
+    }
     &:hover {
-      transform: scale(1.1);
+      @media screen and (min-width: 767px) {
+        transform: scale(1.1);
+      }
     }
     > button {
       cursor: pointer;
       line-height: inherit;
+      padding: 0;
+      margin: 0;
     }
   }
   .alert {
@@ -110,6 +123,9 @@ export default styled(View)`
     opacity: 0;
     padding: 0.5em 0;
     letter-spacing: 0.05em;
+    @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+      width: 50%;
+    }
     &.is-in {
       opacity: 1;
       visibility: visible;
@@ -119,6 +135,10 @@ export default styled(View)`
       font-size: 2rem;
       letter-spacing: 0.05em;
       color: #fff;
+      @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+        /* font-size: 1.6rem; */
+        /* padding: 0.5em; */
+      }
     }
   }
 `;

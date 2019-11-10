@@ -20,17 +20,40 @@ const reducer = (state: TYPE_INITIAL_STATE | Object, action: TYPE_INITIAL_TYPE) 
       return {
         data: action.payload.filter(
           (item: any) =>
-            item.ja.includes(action.text) ||
-            item.en.includes(action.text)
+            item.ja.includes(action.text) || item.en.includes(action.text)
         )
       };
     case "PEOPLE":
       return {
-        data: action.payload.filter((item:any) => item.category === "people")
+        data: action.payload.filter((item: any) => item.category === "people")
       };
     case "ANIMALS":
       return {
         data: action.payload.filter((item: any) => item.category === "animals")
+      };
+    case "FOODS":
+      return {
+        data: action.payload.filter((item: any) => item.category === "foods")
+      };
+    case "ACTIVITY":
+      return {
+        data: action.payload.filter((item: any) => item.category === "activity")
+      };
+    case "PLACE":
+      return {
+        data: action.payload.filter((item: any) => item.category === "place")
+      };
+    case "OBJECT":
+      return {
+        data: action.payload.filter((item: any) => item.category === "object")
+      };
+    case "SYMBOL":
+      return {
+        data: action.payload.filter((item: any) => item.category === "symbol")
+      };
+    case "FLAG":
+      return {
+        data: action.payload.filter((item: any) => item.category === "flag")
       };
     default:
       return state;

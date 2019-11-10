@@ -15,7 +15,7 @@ const Wrapper = styled.div`
     max-width: 760px;
   }
   @media screen and (max-width: ${props => props.theme.responsive.small}) {
-    padding: 0 ${props => props.theme.sideSpace.small};
+    padding: 2.5em ${props => props.theme.sideSpace.small};
   }
 `;
 
