@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Store } from "../store";
 import { TYPE_EMOJI } from "../types/types";
 import { useCopyToClipboard } from "react-use";
-import History from './history';
+import History from './history'
 
 //===============================
 // @Component
@@ -14,9 +14,25 @@ const View: React.FC = (props: any) => {
   const [text , copyToClipboard] = useCopyToClipboard();
   const [toggle, setToggle] = React.useState(false);
   const [currentEmoji , setCurrentEmoji] = React.useState('');
-
-  const { state } = React.useContext(Store);
+  const { state , storage , storageDispatch } = React.useContext(Store);
   const emoji = state.data;
+  const setStorage = (item: string) => {
+    const target = {emoji: item}
+    const some = storage.some((item: { emoji: string; },index: number) => {
+      if (item.emoji === target.emoji) {
+        storage.splice(index, 1);
+        storage.push(item)
+        return true
+      }
+    });
+    if (some) return;
+      storageDispatch({
+        type: "SET_LOCAL",
+        storage: item
+      });
+    window.localStorage.setItem("EMOJI", JSON.stringify(storage));
+  }
+
   return (
     <div className={props.className}>
       <ul className="emoji-list">
@@ -26,6 +42,7 @@ const View: React.FC = (props: any) => {
               onClick={() => {
                 copyToClipboard(item.emoji);
                 setCurrentEmoji(item.emoji);
+                setStorage(item.emoji);
                 setToggle(true);
                 setTimeout(() => setToggle(false), 2000);
               }}
@@ -41,7 +58,15 @@ const View: React.FC = (props: any) => {
       <div className={`alert ${toggle ? "is-in" : ""}`}>
         <p>COPY {currentEmoji}</p>
       </div>
-      <History children={{currentEmoji}} />
+      <History
+        children={{
+          currentEmoji,
+          copyToClipboard,
+          setCurrentEmoji,
+          setStorage,
+          setToggle
+        }}
+      />
     </div>
   );
 };
@@ -53,16 +78,33 @@ export default styled(View)`
   > .emoji-list {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    > li {
+      margin-top: 0.25em;
+        text-align:center;
+      @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+        width: 16.6666666667%;
+      }
+    }
   }
   .emoji {
     font-size: 2.4rem;
     line-height: 1;
+    width: 5%;
+    @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+      font-size: 10.666666666666666vw;
+    }
     &:hover {
-      transform: scale(1.1);
+      @media screen and (min-width: 767px) {
+        transform: scale(1.1);
+      }
     }
     > button {
       cursor: pointer;
       line-height: inherit;
+      padding: 0;
+      margin: 0;
     }
   }
   .alert {
@@ -76,11 +118,14 @@ export default styled(View)`
     text-align: center;
     background: ${props => props.theme.colors.blue4};
     box-shadow: 0 0 10px ${props => props.theme.colors.gray};
-    transition: .2s ease-in-out;
+    transition: 0.2s ease-in-out;
     visibility: hidden;
     opacity: 0;
-    padding:.5em 0;
-    letter-spacing:.05em;
+    padding: 0.5em 0;
+    letter-spacing: 0.05em;
+    @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+      width: 50%;
+    }
     &.is-in {
       opacity: 1;
       visibility: visible;
@@ -88,8 +133,12 @@ export default styled(View)`
     > p {
       font-weight: 700;
       font-size: 2rem;
-      letter-spacing: .05em;
+      letter-spacing: 0.05em;
       color: #fff;
+      @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+        /* font-size: 1.6rem; */
+        /* padding: 0.5em; */
+      }
     }
   }
 `;

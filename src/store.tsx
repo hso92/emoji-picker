@@ -1,5 +1,6 @@
 import React from "react";
 import reducer from "./reducer";
+import storageReducer from "./storageReducer";
 import { initialState } from "./reducer";
 import { TYPE_INITIAL_STATE, TYPE_INITIAL_TYPE } from "./types/types";
 
@@ -10,7 +11,7 @@ const EMOJI_API = process.env.REACT_APP_EMOJI_API;
 const Store = React.createContext<TYPE_INITIAL_STATE | any>(initialState);
 
 // fetch emoji api
-const EMOJI_LIST: any = async () => {
+const fetchEmoji: any = async () => {
   try {
     const res = await fetch(EMOJI_API as any);
     const profileData = await res.json();
@@ -20,9 +21,9 @@ const EMOJI_LIST: any = async () => {
   }
 };
 // patch
-const handleProfileReady = (data: TYPE_INITIAL_TYPE) : any => ({
+const handleProfileReady = (data: TYPE_INITIAL_TYPE): any => ({
   type: "READY",
-  payload: data,
+  payload: data
 });
 
 //===============================
@@ -30,13 +31,23 @@ const handleProfileReady = (data: TYPE_INITIAL_TYPE) : any => ({
 //===============================
 const Provider: React.FC = ({ children }) => {
   const [isLoad, setIsLoad] = React.useState(false);
-  const [emojiState,setEmojiState] = React.useState('');
+  const [emojiState, setEmojiState] = React.useState("");
   const [state, dispatch] = React.useReducer(reducer, []);
+  const [storage, storageDispatch] = React.useReducer<any, object>(
+    storageReducer,
+    [],
+    () => {
+      const storageData = window.localStorage.getItem("EMOJI");
+      return storageData
+        ? JSON.parse(storageData)
+        : [];
+    }
+  );
 
   React.useEffect(() => {
     const trigger = async () => {
       try {
-        const profileData = await EMOJI_LIST();
+        const profileData = await fetchEmoji();
         dispatch(handleProfileReady(profileData));
         setEmojiState(profileData);
         setIsLoad(true);
@@ -48,7 +59,9 @@ const Provider: React.FC = ({ children }) => {
   }, []);
 
   return isLoad ? (
-    <Store.Provider value={{ state, dispatch, emojiState }}>
+    <Store.Provider
+      value={{ state, dispatch, emojiState, storage, storageDispatch }}
+    >
       {children}
     </Store.Provider>
   ) : (

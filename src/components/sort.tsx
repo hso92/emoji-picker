@@ -23,6 +23,30 @@ const View: React.FC = (props: any) => {
     type: "ANIMALS",
     payload: data
   });
+  const handleChangeFoods = (data: TYPE_INITIAL_TYPE) => ({
+    type: "FOODS",
+    payload: data
+  });
+  const handleChangeActivity = (data: TYPE_INITIAL_TYPE) => ({
+    type: "ACTIVITY",
+    payload: data
+  });
+  const handleChangePlace = (data: TYPE_INITIAL_TYPE) => ({
+    type: "PLACE",
+    payload: data
+  });
+  const handleChangeObject = (data: TYPE_INITIAL_TYPE) => ({
+    type: "OBJECT",
+    payload: data
+  });
+  const handleChangeSymbol = (data: TYPE_INITIAL_TYPE) => ({
+    type: "SYMBOL",
+    payload: data
+  });
+  const handleChangeFlag = (data: TYPE_INITIAL_TYPE) => ({
+    type: "FLAG",
+    payload: data
+  });
   return (
     <ul className={props.className}>
       <li>
@@ -49,6 +73,54 @@ const View: React.FC = (props: any) => {
           🐋
         </button>
       </li>
+      <li>
+        <button
+          aria-label="foods"
+          onClick={() => dispatch(handleChangeFoods(emoji))}
+        >
+          🍎
+        </button>
+      </li>
+      <li>
+        <button
+          aria-label="activity"
+          onClick={() => dispatch(handleChangeActivity(emoji))}
+        >
+          ⛹️‍♂️
+        </button>
+      </li>
+      <li>
+        <button
+          aria-label="place"
+          onClick={() => dispatch(handleChangePlace(emoji))}
+        >
+          🏠
+        </button>
+      </li>
+      <li>
+        <button
+          aria-label="object"
+          onClick={() => dispatch(handleChangeObject(emoji))}
+        >
+          📌
+        </button>
+      </li>
+      <li>
+        <button
+          aria-label="symbol"
+          onClick={() => dispatch(handleChangeSymbol(emoji))}
+        >
+          ❤️
+        </button>
+      </li>
+      <li>
+        <button
+          aria-label="flag"
+          onClick={() => dispatch(handleChangeFlag(emoji))}
+        >
+          🚩
+        </button>
+      </li>
     </ul>
   );
 };
@@ -61,11 +133,20 @@ export default styled(View)`
   align-items: center;
   width: 100%;
   padding-bottom: 1em;
+  position:relative;
+  z-index:1;
   color: ${props => props.theme.colors.blue8};
+  @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   > li {
     width: 100%;
     + li {
       margin-left: 2em;
+      @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+        margin-left: 2em;
+      }
     }
     > button {
       font-size: 1.5rem;
@@ -79,7 +160,10 @@ export default styled(View)`
       border-radius: 5px;
       transition: 0.2s ease;
       text-align: center;
-      color:inherit;
+      color: inherit;
+      @media screen and (max-width: ${props => props.theme.responsive.medium}) {
+        padding: 0.5em 1em;
+      }
       &:hover,
       &:focus {
         cursor: pointer;
